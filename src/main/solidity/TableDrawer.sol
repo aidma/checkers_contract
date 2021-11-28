@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
 import "./CheckerLib.sol";
-import "./Table.sol";
+import "./TableLib.sol";
 
 library TableDrawer {
 
