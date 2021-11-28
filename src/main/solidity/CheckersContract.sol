@@ -3,7 +3,7 @@
 pragma solidity >=0.8.0;
 
 import "./Position.sol";
-import "./Checker.sol";
+import "./CheckerLib.sol";
 import "./Table.sol";
 import "./TableDrawer.sol";
 
@@ -15,13 +15,13 @@ contract CheckersContract {
     address private whitePlayer;
     address private blackPlayer;
     Position.Position private currentPosition;
-    Table.Table private table;
+    int8[] private table;
 
     constructor(address _white, address _black) {
         whitePlayer = _white;
         blackPlayer = _black;
         currentPosition = Position.Position.WHITE_TURN;
-        table = Table.init();
+        table = TableLib.init();
     }
 
     event MoveFinished(string _move);

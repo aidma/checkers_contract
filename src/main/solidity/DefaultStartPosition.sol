@@ -1,10 +1,10 @@
 pragma solidity ^0.8.0;
 
-import "./Checker.sol";
+import "./CheckerLib.sol";
 
 library DefaultStartPosition {
 
-    function get() public returns (Checker.Checker[]){
+    function get() public returns (int8[]){
         int8[24] table;
 
         //  // 1-1-111-111
@@ -48,8 +48,8 @@ library DefaultStartPosition {
     }
 
 
-    function checker(int8 color, int8 w, int8 h) private returns (Checker) {
-        return Checker.fromByte(color * 128 + w * 8 + h);
+    function checker(int8 color, int8 w, int8 h) private returns (int8) {
+        return color * 128 + w * 8 + h;
     }
 
 }

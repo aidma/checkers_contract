@@ -1,60 +1,49 @@
 pragma solidity ^0.8.0;
 
-library Checker {
+library CheckerLib {
 
-    struct Checker {
-        bool color; // true == WHITE
-        bool isKing;
-        int8 sell; // can be converted at any moment
-    }
+    // Checker =
+    // color-isKing-www-hhh
+    // 1-1-111-111
 
-    function toByte(Checker checker) public view returns (int8) {
-        int8 res = sell;
-        if (!color)
-            res += 128;
-        if (king)
-            res += 64;
-        return res;
-    }
-
-    function fromByte(int8 checker) public view returns (Checker) {
-        bool color = int8(checker / 128) == 0;
-        bool isKing = int8(checker / 64) % 2 == 1;
-        int8 sell = checker % 64;
-        return Checker(color, isKing, sell);
-    }
-
-    function toString(Checker checker) public view returns (string memory) {
+    function toString(int8 checker) public view returns (string memory) {
         string memory res = "";
 
-        if (checker.color) {
+        if (getColor(checker)) {
             res = "WHITE";
         } else {
             res = "BLACK";
         }
 
-        if (checker.isKing) {
+        if (getIsKing(checker)) {
             res = res + " KING";
         }
 
         return res + " " + toString(checker.sell);
     }
 
+    function getColor(int8 checker) public view returns (bool) {
+        return int8(checker / 128) == 0;
+    }
+
+    function getIsKing(int8 checker) public view returns (bool) {
+        return int8(checker / 64) % 2 == 1;
+    }
 
     // ------ operations with sells ---------
 
-    function getW(Checker checker) public view returns (int8) {
-        return int8(checker.sell / 8);
+    function getW(int8 checker) public view returns (int8) {
+        return int8(checker % 64 / 8);
     }
 
-    function getH(Checker checker) public view returns (int8) {
-        return int8(checker.sell % 8);
+    function getH(int8 checker) public view returns (int8) {
+        return int8(checker % 8);
     }
 
     bytes memory private constant literals = bytes("abcdefgh");
     bytes memory private constant numbers = bytes("12345678");
 
-    function fromString(string position) private view returns (int8) {
+    function fromString(string position) public view returns (int8) {
         bytes memory posAsArray = bytes(position);
         int8 w = 10;
         for (uint i = 0; i < 8; i++) {
@@ -70,7 +59,7 @@ library Checker {
         return w * 8 + h;
     }
 
-    function toString(int8 sell) private view returns (string memory) {
+    function toString(int8 sell) public view returns (string memory) {
         int8 w = int8(checker.sell / 8);
         int8 h = int8(checker.sell % 8);
 
